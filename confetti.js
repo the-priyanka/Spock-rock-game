@@ -1,166 +1,8 @@
-const playerScoreEl = document.getElementById("playerScore");
-const playerChoiceEl = document.getElementById("playerChoice");
-const computerScoreEl = document.getElementById("computerScore");
-const computerChoiceEl = document.getElementById("computerChoice");
-const resultText = document.getElementById("resultText");
-
-const playerRock = document.getElementById("playerRock");
-const playerPaper = document.getElementById("playerPaper");
-const playerScissors = document.getElementById("playerScissors");
-const playerLizard = document.getElementById("playerLizard");
-const playerSpock = document.getElementById("playerSpock");
-
-const computerRock = document.getElementById("computerRock");
-const computerPaper = document.getElementById("computerPaper");
-const computerScissors = document.getElementById("computerScissors");
-const computerLizard = document.getElementById("computerLizard");
-const computerSpock = document.getElementById("computerSpock");
-
-const allGameIcons = document.querySelectorAll(".far");
-
-const choices = {
-  rock: { name: "Rock", defeats: ["scissors", "lizard"] },
-  paper: { name: "Paper", defeats: ["rock", "spock"] },
-  scissors: { name: "Scissors", defeats: ["paper", "lizard"] },
-  lizard: { name: "Lizard", defeats: ["paper", "spock"] },
-  spock: { name: "Spock", defeats: ["scissors", "rock"] },
-};
-
-let playerScoreNumber = 0;
-let computerScoreNumber = 0;
-let computerChoice = "";
-
-// reset all selected icons
-function resetSelected() {
-  allGameIcons.forEach((icon) => {
-    icon.classList.remove("selected");
-  });
-  stopConfetti();
-  removeConfetti();
-}
-
-// reset score & playerChoice/computerChoice
-function resetAll() {
-  playerScoreNumber = 0;
-  computerScoreNumber = 0;
-  playerScoreEl.textContent = playerScoreNumber;
-  computerScoreEl.textContent = computerScoreNumber;
-  playerChoiceEl.textContent = "";
-  computerChoiceEl.textContent = "";
-  resultText.textContent = "";
-  resetSelected();
-}
-
-// random computer choice
-function computerRandomChoice() {
-  let computerChoiceNumber = Math.random();
-  if (computerChoiceNumber < 0.2) {
-    computerChoice = "rock";
-  } else if (computerChoiceNumber <= 0.4) {
-    computerChoice = "paper";
-  } else if (computerChoiceNumber <= 0.6) {
-    computerChoice = "scissors";
-  } else if (computerChoiceNumber <= 0.8) {
-    computerChoice = "lizard";
-  } else {
-    computerChoice = "spock";
-  }
-}
-
-// add "selected" styling & computer choice
-function displayComputerChoice() {
-  switch (computerChoice) {
-    case "rock":
-      computerRock.classList.add("selected");
-      computerChoiceEl.textContent = " --- Rock";
-      break;
-    case "paper":
-      computerPaper.classList.add("selected");
-      computerChoiceEl.textContent = " --- Paper";
-      break;
-    case "scissors":
-      computerScissors.classList.add("selected");
-      computerChoiceEl.textContent = " --- Scissors";
-      break;
-    case "lizard":
-      computerLizard.classList.add("selected");
-      computerChoiceEl.textContent = " --- Lizard";
-      break;
-    case "spock":
-      computerSpock.classList.add("selected");
-      computerChoiceEl.textContent = " --- Spock";
-      break;
-
-    default:
-      break;
-  }
-}
-
-// check result, increase scores, update result
-function updateScore(playerChoice) {
-  console.log(playerChoice, computerChoice);
-  if (playerChoice === computerChoice) {
-    resultText.textContent = "It's a tie.";
-  } else {
-    const choice = choices[playerChoice];
-    console.log(choice.defeats.indexOf(computerChoice));
-    if (choice.defeats.indexOf(computerChoice) > -1) {
-      startConfetti();
-      resultText.textContent = "You Won!";
-      playerScoreNumber++;
-      playerScoreEl.textContent = playerScoreNumber;
-    } else {
-      resultText.textContent = "You Lost!";
-      computerScoreNumber++;
-      computerScoreEl.textContent = computerScoreNumber;
-    }
-  }
-}
-
-// call function to process turn
-function checkResult(playerChoice) {
-  resetSelected();
-  computerRandomChoice();
-  displayComputerChoice();
-  updateScore(playerChoice);
-}
-
-// Passing player selection value and styling icons
-function select(playerChoice) {
-  checkResult(playerChoice);
-  switch (playerChoice) {
-    case "rock":
-      playerRock.classList.add("selected");
-      playerChoiceEl.textContent = " --- Rock";
-      break;
-    case "paper":
-      playerPaper.classList.add("selected");
-      playerChoiceEl.textContent = " --- Paper";
-      break;
-    case "scissors":
-      playerScissors.classList.add("selected");
-      playerChoiceEl.textContent = " --- Scissors";
-      break;
-    case "lizard":
-      playerLizard.classList.add("selected");
-      playerChoiceEl.textContent = " --- Lizard";
-      break;
-    case "spock":
-      playerSpock.classList.add("selected");
-      playerChoiceEl.textContent = " --- Spock";
-      break;
-
-    default:
-      break;
-  }
-}
-
-// on startup, set initial values
-resetAll();
+// Confetti.js - downloaded from https://www.cssscript.com/confetti-falling-animation/
 
 var confetti = {
-  maxCount: 100, //set max confetti count
-  speed: 5, //set the particle animation speed
+  maxCount: 150, //set max confetti count
+  speed: 2, //set the particle animation speed
   frameInterval: 15, //the confetti animation frame interval in milliseconds
   alpha: 1.0, //the alpha opacity of the confetti (between 0 and 1, where 1 is opaque and 0 is invisible)
   gradient: false, //whether to use gradients for the confetti particles
@@ -214,11 +56,9 @@ var context = null;
 
 function resetParticle(particle, width, height) {
   particle.color =
-    colors[(Math.random() * colors.length) | 0] +
-    (confetti.alpha + ")");
+    colors[(Math.random() * colors.length) | 0] + (confetti.alpha + ")");
   particle.color2 =
-    colors[(Math.random() * colors.length) | 0] +
-    (confetti.alpha + ")");
+    colors[(Math.random() * colors.length) | 0] + (confetti.alpha + ")");
   particle.x = Math.random() * width;
   particle.y = Math.random() * height - height;
   particle.diameter = Math.random() * 10 + 5;
@@ -310,9 +150,7 @@ function startConfetti(timeout, min, max) {
           min = max;
           max = temp;
         }
-        count =
-          particles.length +
-          ((Math.random() * (max - min) + min) | 0);
+        count = particles.length + ((Math.random() * (max - min) + min) | 0);
       }
     } else count = particles.length + min;
   } else if (max) count = particles.length + max;
@@ -356,12 +194,7 @@ function drawParticles(context) {
     x = x2 + particle.diameter / 2;
     y2 = particle.y + particle.tilt + particle.diameter / 2;
     if (confetti.gradient) {
-      var gradient = context.createLinearGradient(
-        x,
-        particle.y,
-        x2,
-        y2
-      );
+      var gradient = context.createLinearGradient(x, particle.y, x2, y2);
       gradient.addColorStop("0", particle.color);
       gradient.addColorStop("1.0", particle.color2);
       context.strokeStyle = gradient;
@@ -379,21 +212,15 @@ function updateParticles() {
   waveAngle += 0.01;
   for (var i = 0; i < particles.length; i++) {
     particle = particles[i];
-    if (!streamingConfetti && particle.y < -15)
-      particle.y = height + 100;
+    if (!streamingConfetti && particle.y < -15) particle.y = height + 100;
     else {
       particle.tiltAngle += particle.tiltAngleIncrement;
       particle.x += Math.sin(waveAngle) - 0.5;
       particle.y +=
-        (Math.cos(waveAngle) + particle.diameter + confetti.speed) *
-        0.5;
+        (Math.cos(waveAngle) + particle.diameter + confetti.speed) * 0.5;
       particle.tilt = Math.sin(particle.tiltAngle) * 15;
     }
-    if (
-      particle.x > width + 20 ||
-      particle.x < -20 ||
-      particle.y > height
-    ) {
+    if (particle.x > width + 20 || particle.x < -20 || particle.y > height) {
       if (streamingConfetti && particles.length <= confetti.maxCount)
         resetParticle(particle, width, height);
       else {
@@ -403,3 +230,5 @@ function updateParticles() {
     }
   }
 }
+
+export { startConfetti, stopConfetti, removeConfetti };
