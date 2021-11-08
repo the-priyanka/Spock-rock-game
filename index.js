@@ -26,6 +26,8 @@ const choices = {
   spock: { name: "Spock", defeats: ["scissors", "rock"] },
 };
 
+let playerScoreNumber = 0;
+let computerScoreNumber = 0;
 let computerChoice = "";
 
 // reset all selected icons
@@ -49,12 +51,10 @@ function computerRandomChoice() {
   } else {
     computerChoice = "spock";
   }
-  console.log(computerChoice);
-  console.log(computerChoiceNumber);
 }
 
 // add "selected" styling & computer choice
-function displayComputer() {
+function displayComputerChoice() {
   switch (computerChoice) {
     case "rock":
       computerRock.classList.add("selected");
@@ -82,16 +82,37 @@ function displayComputer() {
   }
 }
 
+// check result, increase scores, update result
+function updateScore(playerChoice) {
+  console.log(playerChoice, computerChoice);
+  if (playerChoice === computerChoice) {
+    resultText.textContent = "It's a tie.";
+  } else {
+    const choice = choices[playerChoice];
+    console.log(choice.defeats.indexOf(computerChoice));
+    if (choice.defeats.indexOf(computerChoice) > -1) {
+      resultText.textContent = "You Won!";
+      playerScoreNumber++;
+      playerScoreEl.textContent = playerScoreNumber;
+    } else {
+      resultText.textContent = "You Lost!";
+      computerScoreNumber++;
+      computerScoreEl.textContent = computerScoreNumber;
+    }
+  }
+}
+
 // call function to process turn
-function checkResult() {
+function checkResult(playerChoice) {
   resetSelected();
   computerRandomChoice();
-  displayComputer();
+  displayComputerChoice();
+  updateScore(playerChoice);
 }
 
 // Passing player selection value and styling icons
 function select(playerChoice) {
-  checkResult();
+  checkResult(playerChoice);
   switch (playerChoice) {
     case "rock":
       playerRock.classList.add("selected");
