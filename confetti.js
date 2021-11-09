@@ -56,9 +56,11 @@ var context = null;
 
 function resetParticle(particle, width, height) {
   particle.color =
-    colors[(Math.random() * colors.length) | 0] + (confetti.alpha + ")");
+    colors[(Math.random() * colors.length) | 0] +
+    (confetti.alpha + ")");
   particle.color2 =
-    colors[(Math.random() * colors.length) | 0] + (confetti.alpha + ")");
+    colors[(Math.random() * colors.length) | 0] +
+    (confetti.alpha + ")");
   particle.x = Math.random() * width;
   particle.y = Math.random() * height - height;
   particle.diameter = Math.random() * 10 + 5;
@@ -150,7 +152,9 @@ function startConfetti(timeout, min, max) {
           min = max;
           max = temp;
         }
-        count = particles.length + ((Math.random() * (max - min) + min) | 0);
+        count =
+          particles.length +
+          ((Math.random() * (max - min) + min) | 0);
       }
     } else count = particles.length + min;
   } else if (max) count = particles.length + max;
@@ -194,7 +198,12 @@ function drawParticles(context) {
     x = x2 + particle.diameter / 2;
     y2 = particle.y + particle.tilt + particle.diameter / 2;
     if (confetti.gradient) {
-      var gradient = context.createLinearGradient(x, particle.y, x2, y2);
+      var gradient = context.createLinearGradient(
+        x,
+        particle.y,
+        x2,
+        y2
+      );
       gradient.addColorStop("0", particle.color);
       gradient.addColorStop("1.0", particle.color2);
       context.strokeStyle = gradient;
@@ -212,15 +221,21 @@ function updateParticles() {
   waveAngle += 0.01;
   for (var i = 0; i < particles.length; i++) {
     particle = particles[i];
-    if (!streamingConfetti && particle.y < -15) particle.y = height + 100;
+    if (!streamingConfetti && particle.y < -15)
+      particle.y = height + 100;
     else {
       particle.tiltAngle += particle.tiltAngleIncrement;
       particle.x += Math.sin(waveAngle) - 0.5;
       particle.y +=
-        (Math.cos(waveAngle) + particle.diameter + confetti.speed) * 0.5;
+        (Math.cos(waveAngle) + particle.diameter + confetti.speed) *
+        0.5;
       particle.tilt = Math.sin(particle.tiltAngle) * 15;
     }
-    if (particle.x > width + 20 || particle.x < -20 || particle.y > height) {
+    if (
+      particle.x > width + 20 ||
+      particle.x < -20 ||
+      particle.y > height
+    ) {
       if (streamingConfetti && particles.length <= confetti.maxCount)
         resetParticle(particle, width, height);
       else {
